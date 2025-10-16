@@ -77,11 +77,11 @@ jobs:
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width,initial-scale=1">
             <title>{title} — Journey</title>
-            <link rel="stylesheet" href="/styles.css">
+            <link rel="stylesheet" href="styles.css">
             <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
           </head>
           <body>
-            <header class="site-header"><div class="container"><h1 class="site-title"><a href="/">Journey</a></h1></div></header>
+            <header class="site-header"><div class="container"><h1 class="site-title"><a href="index.html">Journey</a></h1></div></header>
             <main class="container main-content">
             <article>
               <img id="post-cover" class="post-hero" src="{cover or '/images/placeholder.svg'}" alt="{title}">
