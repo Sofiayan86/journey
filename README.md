@@ -88,6 +88,3 @@ python3 -m http.server 8000
 
 請參閱 repository 中的 `LICENSE` 檔案。
 
----
-
-需要的話，我可以把上面的 "開發備註" 擴充為 `DEVELOPING.md`，包含進階的本機測試步驟（例如使用 act 測試 GitHub Actions）與 Codespaces 的實作細節。
