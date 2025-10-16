@@ -19,6 +19,7 @@
 <body>
   <div class="container">
     <h1>後台 - 發佈文章</h1>
+    <div id="adminArea" style="display:none">
     <div class="admin-form">
       <div class="field">
         <label for="repo">Repository（owner/repo）</label>
@@ -71,11 +72,27 @@
         <div id="status" class="response muted"></div>
       </div>
     </div>
-  
+    </div>
+    </div>
+
     <section class="container" style="max-width:980px;margin-top:1.25rem;">
       <h2>預覽</h2>
       <iframe id="previewFrame" style="width:100%;height:500px;border:1px solid #e6e9ef;border-radius:6px"></iframe>
     </section>
+  </div>
+
+  <!-- Simple admin lock overlay -->
+  <div id="lockOverlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:9999">
+    <div style="background:#fff;padding:1.25rem;border-radius:8px;max-width:420px;width:100%;box-shadow:0 6px 20px rgba(0,0,0,0.2)">
+      <h3 id="lockTitle">解鎖後台</h3>
+      <div id="lockMsg" style="margin-bottom:.5rem;color:#444">請輸入管理密碼以繼續。</div>
+      <input id="lockInput" type="password" placeholder="請輸入密碼" style="width:100%;padding:.5rem;margin-bottom:.5rem;border:1px solid #e6e9ef;border-radius:6px">
+      <div style="display:flex;gap:.5rem;justify-content:flex-end">
+        <button id="lockCancel" style="background:#f3f4f6;border:1px solid #e6e9ef;padding:.5rem .75rem;border-radius:6px">取消</button>
+        <button id="lockAction" style="background:#111827;color:#fff;border:none;padding:.5rem .75rem;border-radius:6px">解鎖</button>
+      </div>
+      <div id="lockHelp" style="margin-top:.75rem;color:var(--muted);font-size:.9rem">首次使用會要求你設定密碼（密碼會以雜湊儲存在瀏覽器），若要移除請在瀏覽器的開發者工具中清除 localStorage 的 <code>admin_pw_hash</code>。</div>
+    </div>
   </div>
 
   <script type="module" src="scripts/admin.js"></script>

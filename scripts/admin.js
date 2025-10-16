@@ -90,3 +90,57 @@ form.preview.addEventListener('click', (e)=>{ e.preventDefault(); downloadHtmlTe
 
 // quick helper: auto-fill date
 if(!form.date.value) form.date.value = new Date().toISOString().slice(0,10);
+
+// --- Simple client-side admin lock ---
+const LOCK_HASH_KEY = 'admin_pw_hash';
+const LOCK_SESSION_KEY = 'admin_unlocked';
+const overlay = document.getElementById('lockOverlay');
+const adminArea = document.getElementById('adminArea');
+const lockInput = document.getElementById('lockInput');
+const lockAction = document.getElementById('lockAction');
+const lockCancel = document.getElementById('lockCancel');
+const lockTitle = document.getElementById('lockTitle');
+
+async function sha256Hex(message){
+  const enc = new TextEncoder();
+  const data = enc.encode(message);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const bytes = new Uint8Array(hash);
+  return Array.from(bytes).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function showAdmin(){ if(adminArea) adminArea.style.display = ''; if(overlay) overlay.style.display = 'none'; }
+function hideAdmin(){ if(adminArea) adminArea.style.display = 'none'; if(overlay) overlay.style.display = ''; }
+
+async function tryUnlock(pw){
+  const stored = localStorage.getItem(LOCK_HASH_KEY);
+  const h = await sha256Hex(pw||'');
+  if(!stored){
+    // first-time: set password
+    localStorage.setItem(LOCK_HASH_KEY, h);
+    sessionStorage.setItem(LOCK_SESSION_KEY, '1');
+    showAdmin();
+    return true;
+  }
+  if(h === stored){ sessionStorage.setItem(LOCK_SESSION_KEY, '1'); showAdmin(); return true; }
+  return false;
+}
+
+lockAction && lockAction.addEventListener('click', async ()=>{
+  const v = lockInput.value || '';
+  const ok = await tryUnlock(v);
+  if(!ok){ lockTitle.textContent = '密碼錯誤，請重試'; setTimeout(()=>{ lockTitle.textContent='解鎖後台' },1800); }
+});
+lockCancel && lockCancel.addEventListener('click', ()=>{ window.location.href = './'; });
+
+// on load: if session unlocked, show admin, else show overlay
+if(sessionStorage.getItem(LOCK_SESSION_KEY) === '1'){
+  showAdmin();
+}else{
+  hideAdmin();
+}
+
+// Expose a simple logout for debugging in console: adminLogout();
+window.adminLogout = function(){ localStorage.removeItem(LOCK_HASH_KEY); sessionStorage.removeItem(LOCK_SESSION_KEY); hideAdmin(); };
+
+// End lock
