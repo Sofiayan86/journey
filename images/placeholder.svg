@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#e6eef8" />
+      <stop offset="1" stop-color="#f3f6fb" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)" />
+  <g transform="translate(80,80)">
+    <rect width="480" height="470" rx="8" fill="#fff" opacity="0.6" />
+    <g transform="translate(520,40)">
+      <text x="0" y="40" font-family="Inter, Arial, sans-serif" font-size="44" fill="#0b1220">Placeholder Image</text>
+      <text x="0" y="90" font-family="Inter, Arial, sans-serif" font-size="20" fill="#6b7280">Your cover will appear here</text>
+    </g>
+  </g>
+</svg>

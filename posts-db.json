@@ -1,0 +1,23 @@
+[
+  {
+    "id": "2025-10-taipei-trip",
+    "title": "台北一日小旅行",
+    "date": "2025-10-16",
+    "slug": "taipei-day-2025-10",
+    "summary": "在台北街頭漫步，發現巷弄中的咖啡香與城市細節。",
+    "coverImage": "/images/taipei-hero.jpg",
+    "gpxFile": "/gpx/taipei-hike-01.gpx",
+    "location": { "lat": 25.033964, "lng": 121.564468 },
+    "tags": ["台灣", "城市漫步", "台北"]
+  },
+  {
+    "id": "2025-09-okinawa-beach",
+    "title": "沖繩海岸日記",
+    "date": "2025-09-05",
+    "slug": "okinawa-beach-2025-09",
+    "summary": "晴朗的海岸線散步與浮潛記錄。",
+    "coverImage": "/images/okinawa-hero.jpg",
+    "tags": ["日本", "海邊"],
+    "location": { "lat": 26.3344, "lng": 127.8056 }
+  }
+]

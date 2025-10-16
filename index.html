@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Journey — 互動式旅行雜誌</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Journey</h1>
+      <nav class="site-nav">
+        <a href="/">首頁</a>
+        <a href="/posts.html">所有文章</a>
+        <a href="/map.html">地圖</a>
+        <a href="/about.html">關於我</a>
+        <!-- admin link for local preview -->
+        <a href="/admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <section class="hero">
+      <h2 class="hero-title">採訪式旅行，細膩記錄</h2>
+      <p class="hero-sub">一個簡約風格的旅行雜誌，圖文並茂、配合互動地圖與 GPX 軌跡。</p>
+    </section>
+
+    <section id="posts" class="posts-grid" aria-live="polite">
+      <!-- JS will inject post cards here -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="social">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="Facebook">FB</a>
+        <a href="#" aria-label="GitHub">GH</a>
+      </div>
+      <p class="copyright">&copy; 2025 Journey</p>
+    </div>
+  </footer>
+
+  <script src="/scripts/main.js" type="module"></script>
+</body>
+</html>

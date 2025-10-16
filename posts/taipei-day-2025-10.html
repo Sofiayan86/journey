@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>台北一日小旅行 — Journey</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="" crossorigin="" />
+  <style>
+    .post-hero{width:100%;height:420px;object-fit:cover;border-radius:6px}
+    #gpx-map{height:420px;margin-top:1rem;border-radius:8px;overflow:hidden}
+    .post-content{margin-top:1rem}
+    .gpx-stats{margin-top:.75rem;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="/">Journey</a></h1>
+      <nav class="site-nav">
+        <a href="/">首頁</a>
+        <a href="/posts.html">所有文章</a>
+        <a href="/map.html">地圖</a>
+        <a href="/about.html">關於我</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <article id="post-article">
+      <figure>
+        <img id="post-cover" class="post-hero" src="/images/placeholder.svg" alt="封面">
+        <figcaption class="muted">範例橫幅（placeholder）</figcaption>
+      </figure>
+      <h1 id="post-title"></h1>
+      <div id="post-meta" class="post-meta"></div>
+
+      <div id="post-body" class="post-content">
+        <p>這是一篇範例文章，內容可在 repo 的文章建立流程中生成或直接編輯靜態檔案。</p>
+      </div>
+
+      <section id="gpx-section" aria-live="polite">
+        <h3>軌跡地圖</h3>
+        <div id="gpx-map" style="display:none"></div>
+        <div id="gpx-stats" class="gpx-stats" aria-hidden="true"></div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Journey</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js" integrity="" crossorigin=""></script>
+  <script type="module" src="/scripts/post.js"></script>
+</body>
+</html>

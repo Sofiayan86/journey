@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="sample" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Taipei Short Hike</name>
+    <time>2025-10-16T08:00:00Z</time>
+  </metadata>
+  <trk>
+    <name>Taipei Hike</name>
+    <trkseg>
+      <trkpt lat="25.0340" lon="121.5645"><ele>10.5</ele><time>2025-10-16T08:00:00Z</time></trkpt>
+      <trkpt lat="25.0350" lon="121.5655"><ele>12.0</ele><time>2025-10-16T08:10:00Z</time></trkpt>
+      <trkpt lat="25.0360" lon="121.5665"><ele>8.3</ele><time>2025-10-16T08:20:00Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

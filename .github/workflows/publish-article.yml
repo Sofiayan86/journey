@@ -1,0 +1,215 @@
+name: Publish article
+
+on:
+  workflow_dispatch:
+    inputs:
+      post:
+        description: 'Post metadata (JSON). Example: {"title":"...","slug":"...","date":"...","summary":"...","coverImage":"/images/...","gpxFile":"/gpx/..","location":{"lat":..,"lng":..},"tags":["..."],"content":"<p>...</p>"}'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install markdown pillow requests
+
+      - name: Create post and update posts-db.json (with Markdown->HTML and thumbnail)
+        env:
+          POST_JSON: ${{ toJson(github.event.inputs.post) }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: |
+          python3 - << 'PY'
+          import os, json, pathlib, sys
+
+          ws = os.environ.get('GITHUB_WORKSPACE', '.')
+          post_raw = os.environ.get('POST_JSON', '')
+          # POST_JSON may be a JSON string or an already-escaped string; try to parse robustly
+          try:
+              post = json.loads(post_raw)
+          except Exception:
+              try:
+                  post = json.loads(json.loads(post_raw))
+              except Exception as e:
+                  print('Failed to parse POST_JSON:', e)
+                  sys.exit(1)
+
+          title = post.get('title','Untitled')
+          slug = post.get('slug') or title.lower().strip().replace(' ','-')
+          date = post.get('date') or ''
+          summary = post.get('summary') or ''
+          cover = post.get('coverImage') or ''
+          gpx = post.get('gpxFile')
+          location = post.get('location')
+          tags = post.get('tags') or []
+          content = post.get('content') or ''
+          content_is_md = bool(post.get('contentIsMarkdown'))
+
+          posts_dir = pathlib.Path(ws) / 'posts'
+          posts_dir.mkdir(parents=True, exist_ok=True)
+
+          post_file = posts_dir / f"{slug}.html"
+
+          if content_is_md:
+              try:
+                  import markdown
+                  content = markdown.markdown(content)
+              except Exception as e:
+                  print('Markdown conversion failed', e)
+
+          html = f"""<!doctype html>
+          <html lang="zh-Hant">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <title>{title} — Journey</title>
+            <link rel="stylesheet" href="/styles.css">
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+          </head>
+          <body>
+            <header class="site-header"><div class="container"><h1 class="site-title"><a href="/">Journey</a></h1></div></header>
+            <main class="container main-content">
+            <article>
+              <img id="post-cover" class="post-hero" src="{cover or '/images/placeholder.svg'}" alt="{title}">
+              <h1>{title}</h1>
+              <p class="post-meta">{date}</p>
+              <div class="post-content">{content}</div>
+          """
+
+          if gpx:
+              html += "\n<section id=\"gpx-section\">\n  <h3>軌跡地圖</h3>\n  <div id=\"gpx-map\" style=\"height:420px\"></div>\n</section>\n"
+
+          html += "\n</article>\n</main>\n<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\"></script>\n<script src=\"/scripts/post.js\" type=\"module\"></script>\n</body>\n</html>"
+
+          post_file.write_text(html, encoding='utf-8')
+          print('Wrote', post_file)
+
+          thumbs_dir = pathlib.Path(ws) / 'images' / 'thumbs'
+          thumbs_dir.mkdir(parents=True, exist_ok=True)
+          thumb_path = thumbs_dir / f"{slug}.jpg"
+          try:
+              from PIL import Image, ImageDraw, ImageFont
+              import requests
+              if cover and (cover.startswith('http') or cover.startswith('https')):
+                  r = requests.get(cover, timeout=10)
+                  if r.status_code == 200:
+                      with open(thumb_path, 'wb') as f:
+                          f.write(r.content)
+                      print('Downloaded cover to', thumb_path)
+              elif cover and cover.startswith('/') and (pathlib.Path(ws) / cover.lstrip('/')).exists():
+                  src = pathlib.Path(ws) / cover.lstrip('/')
+                  Image.open(src).convert('RGB').resize((1200,630)).save(thumb_path, 'JPEG', quality=85)
+                  print('Generated thumb from local cover')
+              else:
+                  img = Image.new('RGB', (1200,630), color=(250,250,250))
+                  draw = ImageDraw.Draw(img)
+                  try:
+                      font = ImageFont.truetype('DejaVuSans-Bold.ttf', 48)
+                  except Exception:
+                      font = ImageFont.load_default()
+                  text = title
+                  w,h = draw.textsize(text, font=font)
+                  draw.text(((1200-w)/2,(630-h)/2), text, fill=(20,20,20), font=font)
+                  img.save(thumb_path, 'JPEG', quality=85)
+                  print('Generated simple thumb')
+          except Exception as e:
+              print('Thumbnail generation failed:', e)
+
+          db_path = pathlib.Path(ws) / 'posts-db.json'
+          posts = []
+          if db_path.exists():
+              try:
+                  posts = json.loads(db_path.read_text(encoding='utf-8'))
+              except Exception:
+                  posts = []
+
+          entry = {
+              'id': post.get('id') or slug,
+              'title': title,
+              'date': date,
+              'slug': slug,
+              'summary': summary,
+              'coverImage': cover,
+              'thumb': f"/images/thumbs/{slug}.jpg",
+              'gpxFile': gpx,
+              'location': location,
+              'tags': tags
+          }
+
+          def same(a,b):
+              return a.get('slug')==b.get('slug') or a.get('id')==b.get('id')
+
+          updated = [e for e in posts if not same(e, entry)]
+          updated.insert(0, entry)
+          try:
+              updated.sort(key=lambda x: x.get('date') or '', reverse=True)
+          except Exception:
+              pass
+
+          db_path.write_text(json.dumps(updated, ensure_ascii=False, indent=2), encoding='utf-8')
+          print('Updated posts-db.json')
+          PY
+
+      - name: Commit & push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts/*.html posts-db.json || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Publish article via workflow: ${{ github.event.inputs.post && format('{0}', github.event.inputs.post) }}" || true
+            git push origin HEAD
+          fi
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Puppeteer deps (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libgtk-3-0
+
+      - name: Install Node deps for thumbnail renderer
+        run: |
+          cd .github/scripts
+          npm init -y
+          npm install puppeteer
+
+      - name: Render thumbnails with Puppeteer
+        env:
+          POST_JSON: ${{ toJson(github.event.inputs.post) }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: |
+          node .github/scripts/render-thumb.js
+
+      - name: Commit thumbnails
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add images/thumbs || true
+          if git diff --cached --quiet; then
+            echo "No thumbnail changes"
+          else
+            git commit -m "Add generated thumbnails for article" || true
+            git push origin HEAD
+          fi
