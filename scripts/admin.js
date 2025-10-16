@@ -144,3 +144,17 @@ if(sessionStorage.getItem(LOCK_SESSION_KEY) === '1'){
 window.adminLogout = function(){ localStorage.removeItem(LOCK_HASH_KEY); sessionStorage.removeItem(LOCK_SESSION_KEY); hideAdmin(); };
 
 // End lock
+
+// If OAuth flow returned token in URL fragment (#gh_token=...), populate PAT field
+;(function(){
+  try{
+    const frag = window.location.hash.substring(1);
+    const params = new URLSearchParams(frag);
+    const tok = params.get('gh_token');
+    if(tok){
+      form.pat.value = tok;
+      // remove fragment from URL for cleanliness
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }catch(e){/* ignore */}
+})();

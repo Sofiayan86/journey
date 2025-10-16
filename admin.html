@@ -38,7 +38,11 @@
 
       <div class="field">
         <label for="pat">GitHub PAT (only for this browser session)</label>
-        <input id="pat" type="text" autocomplete="off">
+          <input id="pat" type="text" autocomplete="off">
+          <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
+            <a id="ghSignIn" href="/auth/start" style="background:#24292e;color:#fff;padding:.4rem .6rem;border-radius:6px;text-decoration:none">Sign in with GitHub</a>
+            <span style="color:var(--muted);font-size:.9rem">或貼上 PAT</span>
+          </div>
         <div class="muted">請使用具最小權限的 PAT（repo + workflow），並勿在公用設備輸入。</div>
       </div>
 
