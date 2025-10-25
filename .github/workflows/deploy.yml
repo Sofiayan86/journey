@@ -18,6 +18,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAGES: 'true'
+      # Use the repository name dynamically so this workflow is reusable
+      VITE_REPO_NAME: ${{ github.event.repository.name }}
     
     steps:
       - name: Checkout repository
