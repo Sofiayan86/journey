@@ -1,0 +1,46 @@
+{
+  "posts": [
+    {
+      "id": "sample-1",
+      "title": "Discovering the Hidden Temples of Kyoto",
+      "excerpt": "A journey through Japan's ancient capital, exploring serene temples and traditional gardens hidden away from the bustling streets.",
+      "content": "This is a sample article. In the full implementation, article content would be loaded from your posts database and rendered here with support for images, text formatting, and more.",
+      "coverImage": "https://images.unsplash.com/photo-1522383150241-803bdf59d3c8?w=1200&h=600&fit=crop",
+      "publishDate": "2024-10-15",
+      "author": "Travel Blogger",
+      "category": "Japan",
+      "location": {
+        "lat": 35.0116,
+        "lng": 135.7681
+      },
+      "gpxFile": "/gpx/sample-hike.gpx"
+    },
+    {
+      "id": "sample-2",
+      "title": "Alpine Adventures in the Swiss Mountains",
+      "excerpt": "Hiking through breathtaking alpine landscapes, pristine lakes, and charming mountain villages in the heart of Switzerland.",
+      "coverImage": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=600&fit=crop",
+      "publishDate": "2024-10-10",
+      "author": "Travel Blogger",
+      "category": "Switzerland",
+      "location": {
+        "lat": 46.8182,
+        "lng": 8.2275
+      }
+    },
+    {
+      "id": "sample-3",
+      "title": "Wandering Through the Streets of Barcelona",
+      "excerpt": "Exploring Gaudí's architectural masterpieces, vibrant neighborhoods, and the Mediterranean charm of Spain's most dynamic city.",
+      "coverImage": "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&h=600&fit=crop",
+      "publishDate": "2024-10-05",
+      "author": "Travel Blogger",
+      "category": "Spain",
+      "location": {
+        "lat": 41.3851,
+        "lng": 2.1734
+      }
+    }
+  ]
+}
+

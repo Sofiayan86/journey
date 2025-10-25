@@ -1,0 +1,49 @@
+# Build Configuration Notes
+
+## Scripts
+The following npm/pnpm scripts are available:
+
+- `pnpm dev` - Start development server at http://localhost:3000
+- `pnpm build` - Build for production (outputs to dist/)
+- `pnpm preview` - Preview production build locally
+- `pnpm type-check` - Check TypeScript types
+
+## GitHub Pages Deployment
+
+### For Project Repository (travel-magazine-blog)
+If deploying to `https://username.github.io/travel-magazine-blog/`:
+
+1. Set the base path in vite.config.ts:
+   ```typescript
+   export default defineConfig({
+     base: '/travel-magazine-blog/',
+     // ... rest of config
+   })
+   ```
+
+2. Or set environment variable:
+   ```bash
+   export VITE_REPO_NAME=travel-magazine-blog
+   ```
+
+### For User/Organization Repository
+If deploying to `https://username.github.io/`:
+
+1. Set the base path in vite.config.ts:
+   ```typescript
+   export default defineConfig({
+     base: '/',
+     // ... rest of config
+   })
+   ```
+
+## Build Output
+- Production build outputs to: `dist/public/`
+- This directory is deployed to GitHub Pages
+
+## Environment Variables
+The following environment variables can be set:
+
+- `VITE_REPO_NAME` - Repository name for GitHub Pages base path
+- `GITHUB_PAGES` - Set to 'true' when building for GitHub Pages
+

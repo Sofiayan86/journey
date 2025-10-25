@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Sample GPX Generator" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Sample Hiking Trail</name>
+    <desc>A scenic hiking trail through the mountains</desc>
+    <time>2024-10-15T08:00:00Z</time>
+  </metadata>
+  <trk>
+    <name>Hiking Trail</name>
+    <desc>Mountain hiking route</desc>
+    <trkseg>
+      <trkpt lat="35.0116" lon="135.7681">
+        <ele>100</ele>
+        <time>2024-10-15T08:00:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0120" lon="135.7690">
+        <ele>120</ele>
+        <time>2024-10-15T08:15:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0130" lon="135.7700">
+        <ele>150</ele>
+        <time>2024-10-15T08:30:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0140" lon="135.7710">
+        <ele>180</ele>
+        <time>2024-10-15T08:45:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0150" lon="135.7720">
+        <ele>200</ele>
+        <time>2024-10-15T09:00:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0160" lon="135.7730">
+        <ele>220</ele>
+        <time>2024-10-15T09:15:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0170" lon="135.7740">
+        <ele>240</ele>
+        <time>2024-10-15T09:30:00Z</time>
+      </trkpt>
+      <trkpt lat="35.0180" lon="135.7750">
+        <ele>260</ele>
+        <time>2024-10-15T09:45:00Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+  <wpt lat="35.0116" lon="135.7681">
+    <name>Start Point</name>
+    <desc>Trail start</desc>
+  </wpt>
+  <wpt lat="35.0180" lon="135.7750">
+    <name>End Point</name>
+    <desc>Trail end</desc>
+  </wpt>
+</gpx>
